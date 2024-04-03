@@ -101,26 +101,29 @@ const UserEventList = () => {
       </div>
       <div className="event-list">
         <div className="row">
-          {filteredEvents.map((event, index) => (
-            <div key={index} className="col-md-6">
-              <Card style={{ width: '100%', marginBottom: '1rem' }}>
-                <Card.Body>
-                  <Card.Title>{event.eventName}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
-                  <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
-                  <Card.Text>Trainer: {event.trainer}</Card.Text>
-                  <Card.Text>Time: {event.time}</Card.Text>
-                  <Card.Text>Location: {event.location}</Card.Text>
-                  <Card.Text>Skill Set: {event.skillSet.join(', ')}</Card.Text>
-                  <Card.Text>Status: {event.status}</Card.Text>
-                  {/* View Details Button */}
-                  <Button variant="primary" style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }} onClick={() => handleViewDetails(event)}>View Details</Button>
-                  {/* Register Button */}
+        {filteredEvents.map((event, index) => (
+          <div key={index} className="col-md-3">
+            <Card style={{ width: '100%', marginBottom: '1rem' }}>
+              <Card.Body>
+                <Card.Title>{event.eventName}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
+                <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
+                <Card.Text>Trainer: {event.trainer}</Card.Text>
+                <Card.Text>Time: {event.time}</Card.Text>
+                <Card.Text>Location: {event.location}</Card.Text>
+                {/* View Details Button */}
+                <Button variant="primary" style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }} onClick={() => handleViewDetails(event)}>View Details</Button>
+                {/* Register Button */}
+                {event.capacity === 0 ? (
+                  <Button variant="secondary" disabled style={{ borderRadius: '25px', width: '45%' }}>No Seating</Button>
+                ) : (
                   <Button variant="success" style={{ borderRadius: '25px', width: '45%' }} onClick={() => handleRegister(event._id)}>Register</Button>
-                </Card.Body>
-              </Card>
-            </div>
-          ))}
+                )}
+              </Card.Body>
+            </Card>
+          </div>
+        ))}
+
         </div>
       </div>
       {selectedEvent && <EventDetailsModal event={selectedEvent} show={showDetailsModal} handleClose={handleCloseDetailsModal} />}

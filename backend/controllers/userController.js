@@ -2,17 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Login = require('../models/login');
-const nodemailer = require('nodemailer');
+const sendEmail = require('./mailController')
 
-
-// Nodemailer configuration
-const transporter = nodemailer.createTransport({
-    service: 'Gmail', // Update with your email service provider (e.g., Gmail)
-    auth: {
-      user: 'vaibhavs.20cse@kongu.edu', // Update with your email address
-      pass: 'vfro zvnw aniz elzk' // Update with your email password
-    }
-  });
 // Route to handle user creation
 router.post('/createUser', async (req, res) => {
     try {
@@ -36,22 +27,15 @@ router.post('/createUser', async (req, res) => {
         await login.save();
         
         // Send email with OTP for password reset
-        const mailOptions = {
-          from: 'vaibhavs.20cse@kongu.edu', // Update with your email address
-          to: email,
-          subject: 'Reset Your Password',
-          text: `Reset Your password with the OTP : ${login.otp}. Click on the following link to reset your password: http://localhost:3000/resetpassword/${email}`
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.error('Error sending email:', error);
-            return res.status(500).json({ error: 'Failed to send OTP email' });
-          }
-          console.log('Email sent:', info.response);
-          return res.status(200).json({ message: 'OTP sent successfully' });
-        });
-    
-        // Send success response
+        const mailSent = await sendEmail(
+          email,
+          'Reset Your Password',
+          `Reset Your password with the OTP : ${login.otp}. Click on the following link to reset your password: http://localhost:3000/resetpassword/${email}`
+        );
+      
+        if (!mailSent) {
+          return res.status(500).json({ error: 'Failed to send OTP email' });
+        }
         res.status(201).json(user);
       } catch (err) {
         console.error('Error creating user:', err);

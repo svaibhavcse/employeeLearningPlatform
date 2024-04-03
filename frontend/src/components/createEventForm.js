@@ -15,7 +15,10 @@ const CreateEventForm = () => {
     trainer:'',
     skills: [],
     status:'' ,
-    endDate:''
+    capacity:0,
+    endDate:'',
+    resource:'',
+    prerequisite:''
   });
 
   // Function to handle skill input
@@ -60,7 +63,10 @@ const CreateEventForm = () => {
         trainer:'',
         skills: [],
         status:'' ,
-        endDate:''
+        capacity:0,
+        endDate:'',
+        resource:'',
+        prerequisite:''
       })
      },50000)
     } catch (error) {
@@ -95,6 +101,7 @@ const CreateEventForm = () => {
           required
         />
       </label>
+      
       <label>
         Start Date:
         <input
@@ -144,8 +151,7 @@ const CreateEventForm = () => {
           </div>
         ))}
       </label>
-    </div>
-    <div className="col-md-6">
+    
       <label>
         Event Description:
         <textarea
@@ -155,6 +161,8 @@ const CreateEventForm = () => {
           required
         />
       </label>
+      </div>
+    <div className="col-md-6">
       <label>
         End Date:
         <input
@@ -166,11 +174,42 @@ const CreateEventForm = () => {
         />
       </label>
       <label>
+        Available Seats:
+        <input
+          type="number"
+          name="capacity"
+          value={formData.capacity}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      <label>
         Location:
         <input
           type="text"
           name="location"
           value={formData.location}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      
+      <label>
+        Resource:
+        <input
+          type="text"
+          name="resource"
+          value={formData.resource}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      <label>
+      Prerequisite:
+        <input
+          type="text"
+          name="prerequisite"
+          value={formData.prerequisite}
           onChange={handleChange}
           required
         />

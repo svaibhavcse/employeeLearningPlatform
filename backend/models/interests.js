@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const RegistrationSchema = new mongoose.Schema({
+const InterestSchema = new mongoose.Schema({
   eventId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event',
@@ -10,13 +10,9 @@ const RegistrationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', 
     required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
 });
 
-const Registration = mongoose.model('registrations', RegistrationSchema);
+const Interest = mongoose.model('Interest', InterestSchema);
 
-module.exports = Registration;
+module.exports = Interest;

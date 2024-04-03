@@ -25,7 +25,7 @@ const Login = () => {
               supplier.setAdmin(true)
               navigate('/event');
             } else {
-              supplier.setAdmin(false)
+              supplier.setAdmin(true)
               navigate(`/user/${response.data.login._id}`);
             }
           }, 2000);

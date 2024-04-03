@@ -1,10 +1,23 @@
 const Event = require('../models/event');
+const Login = require ('../models/login')
 const express = require('express');
 const router = express.Router();
+const sendEmail = require('./mailController')
+
+//get all the email and id's of the users in the db
+const getAllUserDetails = async () => {
+  try {
+    const users = await Login.find({}, '_id email');
+    return users.map(user => ({ id: user._id, email: user.email }));
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    throw new Error('Failed to fetch user details');
+  }
+};
 // Controller function to create a new event
 router.post('/createEvent', async (req, res) => {
   try {
-    const { eventName, eventDescription, date, endDate,time, location,trainer, skillSet ,status} = req.body;
+    const { eventName, eventDescription, date, endDate,time, location,trainer, skillSet,capacity ,status,resource,prerequisite} = req.body;
     
     // Create a new event object
     const newEvent = new Event({
@@ -16,11 +29,27 @@ router.post('/createEvent', async (req, res) => {
       location,
       trainer,
       skillSet,
-      status
+      capacity,
+      status,
+      resource,
+      prerequisite
     });
 
     // Save the event to the database
     await newEvent.save();
+
+    const userDetails = await getAllUserDetails();
+   
+    const emailSubject = `New Event: ${newEvent.eventName}`;
+    
+    //iterate to email
+    for (const user of userDetails) {
+      const { id, email } = user;
+      const eventLink = `http://localhost:3000/user/${id}`;
+      const emailText = `A new event "${newEvent.eventName}" has been posted!\n\n`+
+      `Check it out here: ${eventLink}`;
+      await sendEmail(email, emailSubject, emailText);
+    }
 
     // Respond with the newly created event
     res.status(201).json(newEvent);
@@ -31,9 +60,9 @@ router.post('/createEvent', async (req, res) => {
   }
 })
 
+// Fetch all events from the database
 router.get('/events', async (req, res) => {
   try {
-    // Fetch all events from the database
     const events = await Event.find();
     res.status(200).json(events); // Send the events data as JSON response
   } catch (error) {

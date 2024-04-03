@@ -36,6 +36,18 @@ const eventSchema = new mongoose.Schema({
   status:{
     type:String,
     required: true
+  },
+  capacity:{
+    type:Number,
+    required: true
+  },
+  resource:{
+    type:String,
+    required:true
+  },
+  prerequisite:{
+    type:String,
+    required:true
   }
 });
 

@@ -96,7 +96,7 @@ const EventList = () => {
       <div className="event-list">
         <div className="row">
           {filteredEvents.map((event, index) => (
-            <div key={index} className="col-md-6">
+            <div key={index} className="col-md-3">
               <Card style={{ width: '100%', marginBottom: '1rem' }}>
                 <Card.Body>
                   <Card.Title>{event.eventName}</Card.Title>
@@ -106,6 +106,9 @@ const EventList = () => {
                   <Card.Text>Time: {event.time}</Card.Text>
                   <Card.Text>Location: {event.location}</Card.Text>
                   <Card.Text>Skill Set: {event.skillSet.join(', ')}</Card.Text>
+                  <Card.Text> Resource: <a href={event.resource} target="_blank" rel="noopener noreferrer">{event.resource}</a> </Card.Text>
+                  <Card.Text>Prerequisite: {event.prerequisite}</Card.Text>
+                  <Card.Text>Available Seats: {event.capacity}</Card.Text>
                   <Card.Text>Status: {event.status}</Card.Text>
                   {/* Edit Button */}
                   <Button variant="outline-primary" style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }} onClick={() => handleEdit(event)}>Edit</Button>

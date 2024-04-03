@@ -33,5 +33,9 @@ app.use(createEventController);
 
 const registrationController = require('./controllers/registrationController');
 app.use(registrationController);
+
+const interestsController = require('./controllers/interestsController');
+app.use(interestsController);
+
 // Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

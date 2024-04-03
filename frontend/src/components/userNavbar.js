@@ -4,8 +4,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { useSupplier } from './bucket';
 export const UserNavbar = () => {
+    const supplier = useSupplier();
     const { userId } = useParams();
     const [userName, setUserName] = useState('');
     const navigate = useNavigate();
@@ -34,8 +35,11 @@ export const UserNavbar = () => {
                         <Nav.Link onClick={() => navigate(`/userCalender/${userId}`)}>My Calendar</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Item className="navbar-text me-2">
+                        <Nav.Item className="navbar-text me-5">
                             {userName && `Hey, ${userName}`}
+                        </Nav.Item>
+                        <Nav.Item className="navbar-text me-0" onClick={()=>{supplier.logout()}}>
+                           Logout
                         </Nav.Item>
                     </Nav>
                 </Navbar.Collapse>

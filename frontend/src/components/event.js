@@ -20,7 +20,6 @@ export const Event = () => {
         <Button variant='outline-dark' style={{ width: "20%", borderRadius:"25px" }} onClick={handleShowModal}>
           Create Event
         </Button>
-      
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Create Event</Modal.Title>

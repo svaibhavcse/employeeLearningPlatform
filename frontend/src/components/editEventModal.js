@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
   const [editedEvent, setEditedEvent] = useState({ ...event });
 
@@ -40,7 +40,7 @@ const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
                 <input
                   type="date"
                   name="date"
-                  value={editedEvent.date}
+                  value={editedEvent.date.slice(0, 10)}
                   onChange={handleChange}
                 />
               </label>
@@ -72,8 +72,7 @@ const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
                 />
               </label>
             </form>
-          </div>
-          <div className="col-md-6">
+          
             <label>
               Event Description:
               <textarea
@@ -82,12 +81,23 @@ const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
                 onChange={handleChange}
               />
             </label>
+            </div>
+          <div className="col-md-6">
             <label>
               End Date:
               <input
                 type="date"
                 name="endDate"
-                value={editedEvent.endDate}
+                value={ editedEvent.endDate.slice(0, 10)}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Capacity :
+              <input
+                type="number"
+                name="capacity"
+                value={editedEvent.capacity}
                 onChange={handleChange}
               />
             </label>
@@ -100,6 +110,26 @@ const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
                 onChange={handleChange}
               />
             </label>
+            <label>
+        Resource:
+        <input
+          type="text"
+          name="resource"
+          value={editedEvent.resource}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      <label>
+      Prerequisite:
+        <input
+          type="text"
+          name=" prerequisite"
+          value={editedEvent.prerequisite}
+          onChange={handleChange}
+          required
+        />
+      </label>
             <label>
               Status:
               <input

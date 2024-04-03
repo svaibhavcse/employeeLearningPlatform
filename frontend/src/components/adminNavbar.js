@@ -3,7 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from "react-router-dom";
+import { useSupplier } from './bucket';
 export const AdminNavbar = () => {
+  const supplier = useSupplier();
     const navigate  =  useNavigate();
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -15,6 +17,11 @@ export const AdminNavbar = () => {
           <Nav.Link onClick ={()=>navigate("/createuser")} >Create User</Nav.Link>
           <Nav.Link  onClick ={()=>navigate("/event")}>Events</Nav.Link>
           <Nav.Link  onClick ={()=>navigate("/calender")}>Calender</Nav.Link>
+        </Nav>
+        <Nav>
+        <Nav.Item className="navbar-text me-0" onClick={()=>{supplier.logout()}}>
+                           Logout
+                        </Nav.Item>
         </Nav>
       </Navbar.Collapse>
     </Container>
