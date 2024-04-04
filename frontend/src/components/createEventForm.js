@@ -21,6 +21,7 @@ const CreateEventForm = () => {
     prerequisite:''
   });
 
+  
   // Function to handle skill input
   const handleSkillInput = (event) => {
     if (event.key === 'Enter') {
@@ -61,12 +62,13 @@ const CreateEventForm = () => {
         location: '',
         skillSet: '',
         trainer:'',
-        skills: [],
+        skills: '',
         status:'' ,
         capacity:0,
         endDate:'',
         resource:'',
-        prerequisite:''
+        prerequisite:'',
+        endTime:''
       })
      },50000)
     } catch (error) {
@@ -113,11 +115,21 @@ const CreateEventForm = () => {
         />
       </label>
       <label>
-        Time:
+        Starts At:
         <input
           type="time"
           name="time"
           value={formData.time}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      <label>
+        Ends At:
+        <input
+          type="time"
+          name="endTime"
+          value={formData.endTime}
           onChange={handleChange}
           required
         />
@@ -139,17 +151,8 @@ const CreateEventForm = () => {
           name="skillSet"
           value={formData.skillSet}
           onChange={handleChange}
-          onKeyDown={handleSkillInput}
           required
         />
-        {/* Display the list of skills */}
-        {formData.skills && formData.skills.map((skill, index) => (
-          <div key={index}>
-            <span>{skill}</span>
-            {/* Button to remove the skill */}
-            <button onClick={() => handleRemoveSkill(index)}>Remove</button>
-          </div>
-        ))}
       </label>
     
       <label>

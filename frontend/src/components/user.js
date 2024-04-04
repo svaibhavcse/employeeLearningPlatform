@@ -6,10 +6,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventDetailsModal from './eventDetailsModal'; // Import the modal component for event details
 import { UserNavbar } from './userNavbar';
-import { useParams } from 'react-router-dom'; 
+import { useParams,useNavigate } from 'react-router-dom'; 
 import { useSupplier } from './bucket';
 const UserEventList = () => {
   const {logged} = useSupplier()
+  const navigate = useNavigate()
   const { userId } = useParams(); // Extract userId from the URL
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -87,7 +88,7 @@ const UserEventList = () => {
   
 
   return (
-    logged && (
+    logged ? (
     <div>
         <UserNavbar />
         <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable theme="colored"/>
@@ -109,7 +110,7 @@ const UserEventList = () => {
                 <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
                 <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
                 <Card.Text>Trainer: {event.trainer}</Card.Text>
-                <Card.Text>Time: {event.time}</Card.Text>
+                <Card.Text>Time: {event.time} - {event.endTime}</Card.Text>
                 <Card.Text>Location: {event.location}</Card.Text>
                 {/* View Details Button */}
                 <Button variant="primary" style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }} onClick={() => handleViewDetails(event)}>View Details</Button>
@@ -129,7 +130,7 @@ const UserEventList = () => {
       {selectedEvent && <EventDetailsModal event={selectedEvent} show={showDetailsModal} handleClose={handleCloseDetailsModal} />}
     </div>
     </div>
-    )
+    ): navigate('/')
   );
 };
 

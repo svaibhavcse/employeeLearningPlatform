@@ -103,9 +103,10 @@ const EventList = () => {
                   <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
                   <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
                   <Card.Text>Trainer: {event.trainer}</Card.Text>
-                  <Card.Text>Time: {event.time}</Card.Text>
+                  <Card.Text>Starts At: {event.time}</Card.Text>
+                  <Card.Text>Ends At: {event.endTime}</Card.Text>
                   <Card.Text>Location: {event.location}</Card.Text>
-                  <Card.Text>Skill Set: {event.skillSet.join(', ')}</Card.Text>
+                  <Card.Text>Skill Set: {event.skillSet}</Card.Text>
                   <Card.Text> Resource: <a href={event.resource} target="_blank" rel="noopener noreferrer">{event.resource}</a> </Card.Text>
                   <Card.Text>Prerequisite: {event.prerequisite}</Card.Text>
                   <Card.Text>Available Seats: {event.capacity}</Card.Text>

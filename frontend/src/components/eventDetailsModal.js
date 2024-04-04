@@ -38,9 +38,10 @@ const EventDetailsModal = ({ event, show, handleClose }) => {
         <p>Date: {new Date(event.date).toLocaleDateString('en-GB')} - {new Date(event.endDate).toLocaleDateString('en-GB')}</p>
         <p>Description: {event.eventDescription}</p>
         <p>Trainer: {event.trainer}</p>
-        <p>Time: {event.time}</p>
+        <p>Starts At: {event.time}</p>
+        <p>Ends At: {event.endTime}</p>
         <p>Location: {event.location}</p>
-        <p>Skill Set: {event.skillSet.join(', ')}</p>
+        <p>Skill Set: {event.skillSet}</p>
         <p>Resource: <a href={event.resource} target="_blank" rel="noopener noreferrer">{event.resource}</a></p>
         <p>Prerequisite: {event.prerequisite}</p>
         <p>Available Seats: {event.capacity}</p>

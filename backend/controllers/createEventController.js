@@ -17,7 +17,7 @@ const getAllUserDetails = async () => {
 // Controller function to create a new event
 router.post('/createEvent', async (req, res) => {
   try {
-    const { eventName, eventDescription, date, endDate,time, location,trainer, skillSet,capacity ,status,resource,prerequisite} = req.body;
+    const { eventName, eventDescription, date, endDate,time,endTime, location,trainer, skillSet,capacity ,status,resource,prerequisite} = req.body;
     
     // Create a new event object
     const newEvent = new Event({
@@ -32,7 +32,8 @@ router.post('/createEvent', async (req, res) => {
       capacity,
       status,
       resource,
-      prerequisite
+      prerequisite,
+      endTime
     });
 
     // Save the event to the database
@@ -42,6 +43,8 @@ router.post('/createEvent', async (req, res) => {
    
     const emailSubject = `New Event: ${newEvent.eventName}`;
     
+    // Respond with the newly created event
+    res.status(201).json(newEvent);
     //iterate to email
     for (const user of userDetails) {
       const { id, email } = user;
@@ -51,8 +54,6 @@ router.post('/createEvent', async (req, res) => {
       await sendEmail(email, emailSubject, emailText);
     }
 
-    // Respond with the newly created event
-    res.status(201).json(newEvent);
   } catch (error) {
     // If an error occurs, respond with an error message
     console.error('Error creating event:', error);

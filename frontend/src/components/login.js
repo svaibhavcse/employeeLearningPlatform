@@ -6,6 +6,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSupplier } from './bucket';
+import Alert from 'react-bootstrap/Alert';
+
 const Login = () => {
   const supplier = useSupplier();
   const  email = supplier.email
@@ -25,7 +27,7 @@ const Login = () => {
               supplier.setAdmin(true)
               navigate('/event');
             } else {
-              supplier.setAdmin(true)
+              supplier.setAdmin(true) //false
               navigate(`/user/${response.data.login._id}`);
             }
           }, 2000);
@@ -57,12 +59,15 @@ const forgetPassword = async () => {
     return (
       <div className='loginContainer'>
         <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable theme="colored"/>
-        <form onSubmit={login}>
+       <Alert variant="dark" style={{borderRadius:"50px", margin:"1% 10% 10% 10%",textAlign:"center"}}>Employee Learning Platform</Alert>
+       <div className='formContainer'>
+        <form onSubmit={login} >
           <input className = 'inputEmail' type="email"  onChange={(e) => supplier.setEmail(e.target.value)} placeholder="Email" required />
           <input className='inputPassword' type="password"  onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
           <Button variant="dark" className='btnLogin' type="submit" style={{borderRadius:"25px"}} >Login</Button>
+          <p onClick={() => {forgetPassword()}}>Forget Password ?</p>
         </form>
-        <p onClick={() => {forgetPassword()}}>Forget Password ?</p>
+        </div>
       </div>
     );
   };

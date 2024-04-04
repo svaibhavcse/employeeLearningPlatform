@@ -45,11 +45,20 @@ const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
                 />
               </label>
               <label>
-                Time:
+                Starts At:
                 <input
                   type="time"
                   name="time"
                   value={editedEvent.time}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Ends At:
+                <input
+                  type="time"
+                  name="endTime"
+                  value={editedEvent.endTime}
                   onChange={handleChange}
                 />
               </label>

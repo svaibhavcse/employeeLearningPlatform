@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-import { useParams } from 'react-router-dom'; 
+import { useParams,useNavigate} from 'react-router-dom'; 
 import { UserNavbar } from './userNavbar';
 import { useSupplier } from './bucket';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+
 const RegisteredEvents = () => {
+  const navigate = useNavigate();
     const { userId } = useParams();
     const {logged} = useSupplier()
   const [registeredEvents, setRegisteredEvents] = useState([]);
@@ -18,10 +22,11 @@ const RegisteredEvents = () => {
       }
     };
     fetchRegisteredEvents();
+    console.log(registeredEvents) 
   }, [userId]);
 
   return (
-    logged && (
+    logged ? (
     <div>
       <UserNavbar/>
       <div style={{padding:"10px"}}>
@@ -38,23 +43,25 @@ const RegisteredEvents = () => {
         <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
         <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
         <Card.Text>Trainer: {event.trainer}</Card.Text>
-        <Card.Text>Time: {event.time}</Card.Text>
+        <Card.Text>Time: {event.time} - {event.endTime}</Card.Text>
         <Card.Text>Location: {event.location}</Card.Text>
         <Card.Text> Resource: <a href={event.resource} target="_blank" rel="noopener noreferrer">{event.resource}</a> </Card.Text>
         <Card.Text>Prerequisite: {event.prerequisite}</Card.Text>
         <Card.Text>Available Seats: {event.capacity}</Card.Text>
-        <Card.Text>Skill Set: {event.skillSet.join(', ')}</Card.Text>
+        <Card.Text>Skill Set: {event.skillSet}</Card.Text>
         <Card.Text>Status: {event.status}</Card.Text>
       </Card.Body>
     </Card>
   </div>
 ))}
-
-      </div>
+ </div>
     </div>
-    {registeredEvents == [] && <p style={{textAlign:"center"}}>No Events registered</p>}
+    {registeredEvents.length === 0  && <Alert severity="info" style={{borderRadius:"50px",margin:"0% 10% 0% 10%"}}>
+  <AlertTitle>Oops</AlertTitle>
+  No events registered
+</Alert>}
     </div>
-    )
+    ) : navigate('/')
   );
 };
 

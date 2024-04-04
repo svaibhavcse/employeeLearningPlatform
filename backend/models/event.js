@@ -22,7 +22,7 @@ const eventSchema = new mongoose.Schema({
     required: true
   },
   skillSet: {
-    type: [String],
+    type: String,
     required: true
   },
   trainer:{
@@ -48,6 +48,10 @@ const eventSchema = new mongoose.Schema({
   prerequisite:{
     type:String,
     required:true
+  },
+  endTime : {
+    type : String,
+    required : true
   }
 });
 

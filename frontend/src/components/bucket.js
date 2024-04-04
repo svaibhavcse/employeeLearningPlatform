@@ -6,8 +6,8 @@ export const Bucket = (props) => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [userId, setUserId] = useState('');
-  const [isAdmin, setAdmin] = useState(true);
-  const [logged, setLogged] = useState(true);
+  const [isAdmin, setAdmin] = useState(true);//false
+  const [logged, setLogged] = useState(true);//false
 
   const logout =()=>{
     setEmail('')
