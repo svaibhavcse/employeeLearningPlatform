@@ -10,7 +10,7 @@ import UserEventList from './components/user';
 import RegisteredEvents from './components/userRegisteredEvents';
 import AdminCalendar from './components/eventCalender';
 import UserCalendar from './components/userCalender';
-
+import AdminDashboard from './components/adminDashboard';
 const App = () => {
 
   return (
@@ -24,7 +24,8 @@ const App = () => {
               <Route path="/user/:userId" element={<UserEventList />} />
               <Route path="/userRegisteredEvents/:userId" element={<RegisteredEvents />} />
               <Route path="/calender" element={<AdminCalendar />} />
-              <Route path="/userCalender/:userId" element={<UserCalendar/>} />          
+              <Route path="/userCalender/:userId" element={<UserCalendar/>} />   
+              <Route path='/adminDashboard' element = {<AdminDashboard/>}/>       
         </Routes>
       </Bucket>
     </BrowserRouter>

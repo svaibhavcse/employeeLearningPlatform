@@ -33,6 +33,7 @@ router.post('/register', async (req, res) => {
      // Create a new registration record
      const registration = new Registration({ eventId, userId });
      await registration.save();
+     res.status(201).json({ message: 'Event registration successful', registration });
    //send mail to the users who liked the event (low seats available)
    if(event.capacity <= 5){
    const interestedUsers = await Interest.aggregate([
@@ -106,12 +107,12 @@ router.post('/register', async (req, res) => {
     userEmails.forEach(async (email) => {
       try { 
         // Send email to the current user
-        //await sendEmail(email, emailSubject, emailText);
+        await sendEmail(email, emailSubject, emailText);
       } catch (error) {
         console.error(`Error sending email to ${email}:`, error);
       }
     });
-    
+
     //if ends
     }
 
@@ -124,10 +125,7 @@ router.post('/register', async (req, res) => {
     `Blocking your calender for : ${new Date(eventData.date).toLocaleDateString('en-GB')} - ${new Date(eventData.endDate).toLocaleDateString('en-GB')} \n\n` +
     `Check your calender at : http://localhost:3000/userCalender/${userId} \n\n`+
     `Thank you for registering!`;
-
-    // await sendEmail(user.email,emailSubject,emailText)
-
-    res.status(201).json({ message: 'Event registration successful', registration });
+     await sendEmail(user.email,emailSubject,emailText)
   } catch (error) {
     console.error('Error registering event:', error);
     res.status(500).json({ error: 'Error registering event' });
@@ -146,7 +144,7 @@ router.get('/registeredEvents/:userId', async (req, res) => {
     const registeredEvents = await Event.find({ _id: { $in: eventIds } });
     // Map createdAt field to registered events
     const registeredEventsWithCreatedAt = registeredEvents.map(event => {
-      const registration = registrations.find(registration => registration.eventId.toString() === event._id.toString());
+    const registration = registrations.find(registration => registration.eventId.toString() === event._id.toString());
       return {
         ...event.toJSON(),
         createdAt: registration.createdAt
@@ -157,6 +155,76 @@ router.get('/registeredEvents/:userId', async (req, res) => {
   } catch (error) {
     console.error('Error fetching registered events:', error);
     res.status(500).json({ error: 'Failed to fetch registered events' });
+  }
+});
+
+router.get('/events/registrations/:eventId/:userId', async (req, res) => {
+  try {
+     const { eventId, userId } = req.params;
+     const registration = await Registration.findOne({ eventId, userId });
+     if (registration) {
+       // User is registered for the event
+       res.status(200).json({ isRegistered: true });
+     } else {
+       // User is not registered for the event
+       res.status(200).json({ isRegistered: false });
+     }
+  } catch (error) {
+     console.error('Error checking registration status:', error);
+     res.status(500).json({ message: 'Error checking registration status' });
+  }
+ });
+
+ // Route to handle unregistering from an event
+router.delete('/unregister/:eventId/:userId', async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const userId = req.params.userId;
+
+    // Find the registration entry by eventId and userId
+    const registration = await Registration.findOneAndDelete({ eventId, userId });
+
+    if (!registration) {
+      // If no registration is found, send a not found error response
+      return res.status(404).json({ error: 'Registration not found' });
+    }
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Unregistered from event' });
+      // Update the event's capacity by incrementing it by one
+    await Event.updateOne({ _id: eventId }, { $inc: { capacity: 1 } });
+    //send mail to all the interested users is the seat got empty (0 to 1)
+    const eventData = await Event.findById({_id : eventId})
+    if (eventData.capacity === 1) {
+      try {
+        const eventRegistrations = await Registration.find({ eventId });
+        const eventInterests = await Interest.find({ eventId });
+    
+        // Filter out users who have registered for the event
+        const usersToNotify = eventInterests.filter((interest) => {
+          return !eventRegistrations.some((registration) => registration.userId.equals(interest.userId));
+        });
+    
+        // Notify users who are interested in the event but not yet registered
+        for (const interest of usersToNotify) {
+          const user = await Login.findById(interest.userId);
+          const emailSubject = `Seat Availability for : ${eventData.eventName}`;
+          const emailText = `The event "${eventData.eventName}" has got an empty seat. Please register soon to book your seat.\n\n` +
+            `http://localhost:3000/user/${user._id}`;
+          // Send email to user.email with the subject emailSubject and the body emailText
+          await sendEmail(user.email, emailSubject, emailText);
+        }
+      } catch (error) {
+        console.error('Error sending email notifications:', error);
+        // Handle error
+      }
+    }
+    
+
+  } catch (error) {
+    // If an error occurs, send a server error response
+    console.error('Error unregistering from event:', error);
+    res.status(500).json({ error: 'Failed to unregister from event' });
   }
 });
 

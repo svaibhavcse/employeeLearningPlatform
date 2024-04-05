@@ -5,8 +5,13 @@ import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EditEventModal from './editEventModal';
+import { Levels } from "react-activity";
+import "react-activity/dist/library.css";
+import Tooltip from '@mui/material/Tooltip';
+import { useLocation } from 'react-router-dom';
 
 const EventList = () => {
+  const location = useLocation()
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editedEvent, setEditedEvent] = useState(null);
@@ -83,9 +88,22 @@ const EventList = () => {
     setFilteredEvents(filtered);
   }, [events, filter]);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchTerm = searchParams.get('search');
+    
+    if (searchTerm) {
+      // Filter events based on the search term
+      const filtered = events.filter(event => event.eventName.toLowerCase().includes(searchTerm.toLowerCase()));
+      setFilteredEvents(filtered);
+    } else {
+      setFilteredEvents(events);
+    }
+  }, [location.search, events]);
+
   return (
     <div>
-      <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable pauseOnHover />
+      <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable theme="colored"/>
       <h2>Events</h2>
       <div>
         <Button variant={filter === 'all' ? 'dark' : 'outline-dark'} style={{borderRadius:"25px",width:"25%"}} onClick={() => setFilter('all')}>All</Button>{' '}
@@ -99,7 +117,10 @@ const EventList = () => {
             <div key={index} className="col-md-3">
               <Card style={{ width: '100%', marginBottom: '1rem' }}>
                 <Card.Body>
-                  <Card.Title>{event.eventName}</Card.Title>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Card.Title>{event.eventName}</Card.Title>
+                    {/* {event.status === 'ongoing'&& <Card.Text><Tooltip title="Live Event"> <Levels style={{color:"red"}}/> </Tooltip> </Card.Text>}  */}
+                  </div>
                   <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
                   <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
                   <Card.Text>Trainer: {event.trainer}</Card.Text>
@@ -112,9 +133,15 @@ const EventList = () => {
                   <Card.Text>Available Seats: {event.capacity}</Card.Text>
                   <Card.Text>Status: {event.status}</Card.Text>
                   {/* Edit Button */}
-                  <Button variant="outline-primary" style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }} onClick={() => handleEdit(event)}>Edit</Button>
+                  <Button variant="outline-primary"
+                            style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }}
+                            onClick={() => handleEdit(event)}
+                            disabled={event.status === 'completed'}
+                            >
+                            Edit
+                            </Button>
                   {/* Delete Button */}
-                  <Button variant="outline-danger" style={{ borderRadius: '25px', width: '45%' }} onClick={() => handleDelete(event._id)}>Delete</Button>
+                  <Button variant="outline-danger" style={{ borderRadius: '25px', width: '45%' }} onClick={() => handleDelete(event._id)}disabled={event.status === 'completed'}>Delete</Button>
                 </Card.Body>
               </Card>
             </div>

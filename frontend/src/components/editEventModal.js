@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import {toast } from 'react-toastify';
 const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
   const [editedEvent, setEditedEvent] = useState({ ...event });
 
@@ -11,9 +10,8 @@ const EditEventModal = ({ event, show, handleClose, handleUpdate }) => {
   };
 
   const handleSubmit = () => {
-    toast.success('Event updated successfully');
-    handleUpdate(editedEvent);
     handleClose();
+    handleUpdate(editedEvent);
   };
 
   return (

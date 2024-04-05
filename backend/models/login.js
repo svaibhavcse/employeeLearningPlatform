@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const LoginSchema = new mongoose.Schema({
-  email: String,
+  email: {
+    type:String,
+    ref:'User'
+  },
   password: String,
   otp: Number 
 });

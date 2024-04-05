@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/details.css'
 import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
+
 function ResetPassword() {
     const { email } = useParams();
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const handleResetPassword = async () => {
         console.log(email)
@@ -17,20 +17,21 @@ function ResetPassword() {
             if (!response.ok) {
                 throw new Error('Failed to reset password');
             }
-            // Set success message
-            setSuccessMessage('Password reset successfully!');
+          
+         toast.success("Password Updated")
             // Redirect to home route after a brief delay
             setTimeout(() => {
                 navigate('/');
             }, 2000); // 2000 milliseconds delay
         } catch (error) {
             console.error('Error resetting password:', error.message);
-            setErrorMessage(error.message);
+           
         }
     };
     return (
         
             <form>
+                 <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable theme="colored"/>
                 <label>OTP:</label>
                 <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} required />
 

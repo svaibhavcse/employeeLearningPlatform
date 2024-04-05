@@ -7,12 +7,15 @@ import { useNavigate, useParams,useLocation } from 'react-router-dom';
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { useSupplier } from './bucket';
 import './styles/navbar.css'
+import { IoSearch } from 'react-icons/io5'; // Import the search icon
+
 export const UserNavbar = () => {
     const supplier = useSupplier();
     const { userId } = useParams();
     const [userName, setUserName] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
+    const [searchTerm, setSearchTerm] = useState('');
 
     const isActive = (path) => {
         return location.pathname === path;
@@ -29,6 +32,16 @@ export const UserNavbar = () => {
         };
         fetchUserName();
     }, [userId]);
+    // Function to handle search
+  const handleSearch = () => {
+    // Navigate to the events page with the search term as a query parameter
+    navigate(`/user/${userId}/?search=${searchTerm}`);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -41,6 +54,18 @@ export const UserNavbar = () => {
             <Nav.Link onClick={() => navigate(`/user/${userId}`)} className={isActive(`/user/${userId}`) ? "fw-bold text-decoration-underline me-2" : ""}>All Events</Nav.Link>
             <Nav.Link onClick={() => navigate(`/userCalender/${userId}`)} className={isActive(`/userCalender/${userId}`) ? "fw-bold text-decoration-underline me-2" : ""}>My Calendar</Nav.Link>
           </Nav>
+           {/* Search bar */}
+           <div className="navbar-text me-4">
+            <input
+              type="text"
+              placeholder="Search events"
+              value={searchTerm}
+              style={{borderRadius:"25px",border:"none"}}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <IoSearch className="search-icon" onClick={handleSearch} />
+          </div>
           <Nav>
             <Nav.Item className="navbar-text me-0" onClick={() => { supplier.logout() }} style={{ cursor: "pointer" }}>
               <RiLogoutCircleRLine /> Logout

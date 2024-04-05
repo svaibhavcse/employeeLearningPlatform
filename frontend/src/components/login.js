@@ -46,9 +46,7 @@ const Login = () => {
 const forgetPassword = async () => {
   try {
     const response = await axios.post('http://localhost:5000/forgotpassword',{ email : email })
-    if (!response.ok) {
-      throw new Error('Failed to send OTP for password reset');
-    }
+    toast.success("OTP sent to your email")
     navigate(`/resetpassword/${email}`);
   } catch (error) {
     console.error('Error sending OTP for password reset:', error.message);
@@ -59,7 +57,7 @@ const forgetPassword = async () => {
     return (
       <div className='loginContainer'>
         <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable theme="colored"/>
-       <Alert variant="dark" style={{borderRadius:"50px", margin:"1% 10% 10% 10%",textAlign:"center"}}>Employee Learning Platform</Alert>
+       <Alert variant="dark" style={{borderRadius:"50px", margin:"1% 10% 10% 10%",textAlign:"center",backgroundColor:"#495057",color:"white",borderColor:"#6c757d",borderWidth:"5px"}}>Employee Learning Platform</Alert>
        <div className='formContainer'>
         <form onSubmit={login} >
           <input className = 'inputEmail' type="email"  onChange={(e) => supplier.setEmail(e.target.value)} placeholder="Email" required />
