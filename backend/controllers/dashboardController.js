@@ -1,58 +1,72 @@
-const Registration = require('../models/registration');
-const Event = require('../models/event');
-const Login = require('../models/login');
-const Interest = require('../models/interests')
 const express = require('express');
 const router = express.Router();
 
+// Assuming you have models imported and connected to your database
+const Registration = require('../models/registration');
+const Event = require('../models/event');
+const Login = require('../models/login');
+const Interest = require('../models/interests');
+const User = require ('../models/user')
+
 router.get('/registrations', async (req, res) => {
     try {
-        // 1. Query the Event model to get all events
-        const events = await Event.find({}, '_id name');
+        // Fetch all events from the Event collection
+        const events = await Event.find({});
 
-        // Array to store event details
-        const eventDetails = [];
-
-        // Iterate over each event
-        for (const event of events) {
-            // 2. Query the Registration model to get all registrations for the current event ID
+        // Map over the events to create the desired JSON structure
+        const eventDetails = await Promise.all(events.map(async event => {
+            // Fetch registrations for the current event
             const registrations = await Registration.find({ eventId: event._id });
+            const interests = await Interest.find({ eventId: event._id });
 
-            // Array to store user details for the current event
-            const userDetails = [];
-
-            // Iterate over each registration and fetch user details
-            for (const registration of registrations) {
-                // 3. Use the obtained user ID to query the Login model to get the email
-                const loginInfo = await Login.findOne({ _id: registration.userId });
-
-                if (!loginInfo) {
-                    throw new Error('Login information not found');
-                }
-
-                // 4. Use the email to query the User model to get the user's name
-                const user = await User.findOne({ email: loginInfo.email });
-                if (!user) {
-                    throw new Error('User not found');
-                }
-
-                userDetails.push({
+            // Extract user IDs from the registrations
+            const registrationDetails = await Promise.all(registrations.map(async registration => {
+                // Find the user details using the user ID from the registration
+                const login = await Login.findById(registration.userId);
+                const user = await User.findOne({email: login.email})
+                return {
+                    userId: registration.userId,
                     name: user.name,
-                    email: user.email,
-                    role: user.role
-                });
-            }
+                    email: login.email, // Include user email from the login collection
+                    createdAt: registration.createdAt
+                };
+            }));
 
-            // Push event details to the array
-            eventDetails.push({
-                event: event.name,
-                users: userDetails
-            });
-        }
-            console.log(eventDetails)
+
+            const InterestDetails = await Promise.all(interests.map(async interest => {
+                // Find the user details using the user ID from the interest table
+                const login = await Login.findById(interest.userId);
+                const user = await User.findOne({email: login.email})
+                return {
+                    userId: interest.userId,
+                    name: user.name,
+                    email: login.email, // Include user email from the login collection
+                };
+            }));
+
+            return {
+                _id: event._id,
+                eventName: event.eventName,
+                eventDescription: event.eventDescription,
+                date: event.date,
+                time: event.time,
+                location: event.location,
+                trainer: event.trainer,
+                status: event.status,
+                endDate: event.endDate,
+                capacity: event.capacity,
+                endTime: event.endTime,
+                registrations: registrationDetails, // Include the user IDs, email, and createdAt of registrations
+                interests : InterestDetails
+            };
+        }));
+
+        // Send the event details as the response
         res.json(eventDetails);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching user details for all events: ' + error.message });
+        res.status(500).json({ error: 'Error fetching event details: ' + error.message });
     }
 });
+
+
 module.exports = router;

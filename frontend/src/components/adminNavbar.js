@@ -22,7 +22,7 @@ export const AdminNavbar = () => {
   // Function to handle search
   const handleSearch = () => {
     // Navigate to the events page with the search term as a query parameter
-    navigate(`/event?search=${searchTerm}`);
+    isActive('/event') ? navigate(`/event?search=${searchTerm}`) : navigate(`/adminDashboard?search=${searchTerm}`)
   };
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -39,7 +39,7 @@ export const AdminNavbar = () => {
             <Nav.Link onClick={() => navigate('/createuser')} className={isActive('/createuser') ? 'fw-bold text-decoration-underline me-2' : ''}>Create User</Nav.Link>
             <Nav.Link onClick={() => navigate('/event')} className={isActive('/event') ? 'fw-bold text-decoration-underline me-2' : ''}>Events</Nav.Link>
             <Nav.Link onClick={() => navigate('/calender')} className={isActive('/calender') ? 'fw-bold text-decoration-underline me-2' : ''}>Calendar</Nav.Link>
-            <Nav.Link onClick={() => navigate('/adminDashboard')} className={isActive('/adminDashboard') ? 'fw-bold text-decoration-underline me-2' : ''}>Dashboard</Nav.Link>
+            {/* <Nav.Link onClick={() => navigate('/adminDashboard')} className={isActive('/adminDashboard') ? 'fw-bold text-decoration-underline me-2' : ''}>Dashboard</Nav.Link> */}
           </Nav>
           {/* Search bar */}
           <div className="navbar-text me-4">
@@ -55,7 +55,7 @@ export const AdminNavbar = () => {
           </div>
           <Nav>
             <Nav.Item className="navbar-text me-0" onClick={() => { supplier.logout(); }} style={{ cursor: 'pointer' }}>
-              <RiLogoutCircleRLine /> Logout
+               Logout <RiLogoutCircleRLine />
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>

@@ -1,4 +1,11 @@
 /* Event.css */
+/* :root{
+  background-color: #343a40;
+}
+body{
+  background-color: #343a40;
+} */
+
 .modal-body {
     display: flex;
     flex-direction: column;
@@ -18,5 +25,4 @@
   .modal-body button {
     width: 100%;
     padding: 8px;
-  }
-  
+  }  

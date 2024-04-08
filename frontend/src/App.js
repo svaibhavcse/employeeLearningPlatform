@@ -10,7 +10,7 @@ import UserEventList from './components/user';
 import RegisteredEvents from './components/userRegisteredEvents';
 import AdminCalendar from './components/eventCalender';
 import UserCalendar from './components/userCalender';
-import AdminDashboard from './components/adminDashboard';
+import  {AdminDashboard} from './components/adminDashboard';
 const App = () => {
 
   return (

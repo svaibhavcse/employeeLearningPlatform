@@ -139,9 +139,10 @@ const UserEventList = () => {
                 <div key={index} className="col-md-3">
                  <Card style={{ width: '100%', marginBottom: '1rem' }}>
                     <Card.Body>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Card.Title>{event.eventName}</Card.Title>
-                      </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Card.Title>{event.eventName}</Card.Title>
+                    {/* {event.status === 'ongoing'&& <Card.Text><Tooltip title="Live Event"> <Levels style={{color:"red"}}/> </Tooltip> </Card.Text>}  */}
+                  </div>
                       <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} - {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
                       <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
                       <Card.Text>Trainer: {event.trainer}</Card.Text>
