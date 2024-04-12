@@ -25,9 +25,28 @@ const CreateEventForm = () => {
   // Function to handle form submit
   const handleSubmit = async () => {
     try {
+      if (!isValidDateTime()) {
+        toast.error('Invalid date/time: End date/time should be after start date/time');
+        setFormData({
+          eventName: '',
+          eventDescription: '',
+          date: '',
+          time: '',
+          location: '',
+          skillSet: '',
+          trainer: '',
+          skills: '',
+          status: '',
+          capacity: 0,
+          endDate: '',
+          resource: '',
+          prerequisite: '',
+          endTime: ''
+        })
+        return;
+      }
       // Send a POST request to the backend to create the event
       const response = await axios.post('http://localhost:5000/createEvent', formData);
-      console.log('Event created:', response.data);
       // Reset the form after successful submission
       toast.success("Event Created Successfully !");
       setTimeout(() => {
@@ -46,7 +65,7 @@ const CreateEventForm = () => {
           resource: '',
           prerequisite: '',
           endTime: ''
-        });
+        })
       }, 50000);
     } catch (error) {
       console.error('Error creating event:', error);
@@ -84,6 +103,13 @@ const CreateEventForm = () => {
         status: 'pending'
       });
     }
+  };
+   // Function to validate start and end date/time
+   const isValidDateTime = () => {
+    const { date, endDate, time, endTime } = formData;
+    const startDateTime = new Date(`${date}T${time}`);
+    const endDateTime = new Date(`${endDate}T${endTime}`);
+    return startDateTime < endDateTime;
   };
 
   // Call determineEventStatus when date changes

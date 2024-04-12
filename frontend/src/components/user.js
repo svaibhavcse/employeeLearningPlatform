@@ -12,6 +12,8 @@ import { Levels } from "react-activity";
 import "react-activity/dist/library.css";
 import Tooltip from '@mui/material/Tooltip';
 import { useLocation } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const UserEventList = () => {
   const location = useLocation()
@@ -23,6 +25,7 @@ const UserEventList = () => {
  const [filter, setFilter] = useState('all');
  const [selectedEvent, setSelectedEvent] = useState(null);
  const [showDetailsModal, setShowDetailsModal] = useState(false);
+ const [loading, setLoading] = useState(true); // State to track loading status
 
  useEffect(() => {
     const fetchEvents = async () => {
@@ -33,6 +36,7 @@ const UserEventList = () => {
           return { ...event, isRegistered: registrationResponse.data.isRegistered };
         }));
         setEvents(eventsWithRegistrationStatus);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching events:', error);
         toast.error('Error fetching events');
@@ -58,6 +62,7 @@ const UserEventList = () => {
         filtered = events;
         break;
     }
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
     setFilteredEvents(filtered);
  }, [events, filter]);
 
@@ -92,7 +97,7 @@ const UserEventList = () => {
     }
  };
 
- const handleUnregister = async (eventId) => {
+const handleUnregister = async (eventId) => {
     try {
       await axios.delete(`http://localhost:5000/unregister/${eventId}/${userId}`);
       toast.success('Unregistered from event');
@@ -133,6 +138,11 @@ const UserEventList = () => {
             <Button variant={filter === 'past' ? 'dark' : 'outline-dark'} style={{ borderRadius: "25px", width: "25%" }} onClick={() => setFilter('past')}>Past</Button>{' '}
             <Button variant={filter === 'upcoming' ? 'dark' : 'outline-dark'} style={{ borderRadius: "25px", width: "24%" }} onClick={() => setFilter('upcoming')}>Upcoming</Button>
           </div>
+          {loading ? ( // Conditional rendering based on loading state
+         <Box sx={{ width: '100%' }}>
+         <LinearProgress />
+       </Box>
+      ) : (
           <div className="event-list">
             <div className="row">
               {filteredEvents.map((event, index) => (
@@ -162,7 +172,7 @@ const UserEventList = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div>)}
           {selectedEvent && <EventDetailsModal event={selectedEvent} show={showDetailsModal} handleClose={handleCloseDetailsModal} />}
         </div>
       </div>

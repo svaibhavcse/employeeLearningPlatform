@@ -27,7 +27,7 @@ const Login = () => {
               supplier.setAdmin(true)
               navigate('/event');
             } else {
-              supplier.setAdmin(true) //false
+              supplier.setAdmin(false) //false
               navigate(`/user/${response.data.login._id}`);
             }
           }, 2000);
@@ -45,6 +45,7 @@ const Login = () => {
     };
 const forgetPassword = async () => {
   try {
+    if(!email) {toast.error('Please enter a valid email id')}
     const response = await axios.post('http://localhost:5000/forgotpassword',{ email : email })
     toast.success("OTP sent to your email")
     navigate(`/resetpassword/${email}`);

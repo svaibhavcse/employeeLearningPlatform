@@ -9,6 +9,8 @@ import { Levels } from "react-activity";
 import "react-activity/dist/library.css";
 import Tooltip from '@mui/material/Tooltip';
 import { useLocation } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const EventList = () => {
   const location = useLocation()
@@ -17,6 +19,7 @@ const EventList = () => {
   const [editedEvent, setEditedEvent] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [filter, setFilter] = useState('all'); // 'all', 'ongoing', 'past', 'upcoming'
+  const [loading, setLoading] = useState(true); // State to track loading status
 
   const handleEdit = (event) => {
     setEditedEvent(event);
@@ -59,6 +62,7 @@ const EventList = () => {
       try {
         const response = await axios.get('http://localhost:5000/events');
         setEvents(response.data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching events:', error);
         toast.error('Error fetching events');
@@ -85,6 +89,7 @@ const EventList = () => {
         filtered = events;
         break;
     }
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
     setFilteredEvents(filtered);
   }, [events, filter]);
 
@@ -111,6 +116,11 @@ const EventList = () => {
         <Button variant={filter === 'past' ? 'dark' : 'outline-dark'} style={{borderRadius:"25px",width:"25%"}} onClick={() => setFilter('past')}>Past</Button>{' '}
         <Button variant={filter === 'upcoming' ? 'dark' : 'outline-dark'} style={{borderRadius:"25px",width:"24%"}} onClick={() => setFilter('upcoming')}>Upcoming</Button>
       </div>
+      {loading ? ( // Conditional rendering based on loading state
+         <Box sx={{ width: '100%' }}>
+         <LinearProgress />
+       </Box>
+      ) : (
       <div className="event-list">
         <div className="row">
           {filteredEvents.map((event, index) => (
@@ -147,7 +157,7 @@ const EventList = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div>)}
       {editedEvent && <EditEventModal event={editedEvent} show={showModal} handleClose={handleClose} handleUpdate={handleUpdate} />}
     </div>
   );

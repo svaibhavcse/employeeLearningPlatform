@@ -32,14 +32,14 @@ export const AdminNavbar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand>Admin</Navbar.Brand>
+        <Navbar.Brand onClick={()=> navigate('/event')}>Admin</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate('/createuser')} className={isActive('/createuser') ? 'fw-bold text-decoration-underline me-2' : ''}>Create User</Nav.Link>
             <Nav.Link onClick={() => navigate('/event')} className={isActive('/event') ? 'fw-bold text-decoration-underline me-2' : ''}>Events</Nav.Link>
             <Nav.Link onClick={() => navigate('/calender')} className={isActive('/calender') ? 'fw-bold text-decoration-underline me-2' : ''}>Calendar</Nav.Link>
-            {/* <Nav.Link onClick={() => navigate('/adminDashboard')} className={isActive('/adminDashboard') ? 'fw-bold text-decoration-underline me-2' : ''}>Dashboard</Nav.Link> */}
+            <Nav.Link onClick={() => navigate('/adminDashboard')} className={isActive('/adminDashboard') ? 'fw-bold text-decoration-underline me-2' : ''}>Dashboard</Nav.Link>
           </Nav>
           {/* Search bar */}
           <div className="navbar-text me-4">
