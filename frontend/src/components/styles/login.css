@@ -1,0 +1,24 @@
+ .loginContainer form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom:0;
+  }
+ .inputEmail {
+    margin-bottom: 10px; 
+    width: 30%;
+    
+  }
+  .inputPassword {
+    margin-bottom: 10px; 
+    width: 30%;
+    
+  }
+  .btnLogin{
+    margin-bottom: 10px; 
+    width: 31%;
+  }
+  .loginContainer p {
+    margin-top: 10px; 
+    cursor: pointer; 
+  }

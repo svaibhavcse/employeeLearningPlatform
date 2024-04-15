@@ -1,0 +1,11 @@
+/* EventList.css */
+
+.event-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+  }
+  .event-card-content {
+    flex-grow: 1;
+  }

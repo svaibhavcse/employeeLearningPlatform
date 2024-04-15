@@ -1,0 +1,8 @@
+.text-decoration-underline {
+    text-decoration: underline;
+    text-underline-offset: 10px; 
+  }
+.bg-body-tertiary{
+  border-radius: 25px;
+  margin: 20px;
+}
