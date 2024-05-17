@@ -7,15 +7,21 @@ import { useSupplier } from './bucket';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from 'react-bootstrap/Button';
+<<<<<<< HEAD
 import './styles/eventList.css'
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+=======
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
 
 const RegisteredEvents = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const { logged } = useSupplier();
+<<<<<<< HEAD
   const [loading, setLoading] = useState(true); // State to track loading status
+=======
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
 
   const [registeredEvents, setRegisteredEvents] = useState([]);
   const [showOngoingOnly, setShowOngoingOnly] = useState(false);
@@ -25,7 +31,10 @@ const RegisteredEvents = () => {
       try {
         const response = await axios.get(`http://localhost:5000/registeredEvents/${userId}`);
         setRegisteredEvents(response.data);
+<<<<<<< HEAD
         setLoading(false)
+=======
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
       } catch (error) {
         console.error('Error fetching registered events:', error);
       }
@@ -42,6 +51,7 @@ const RegisteredEvents = () => {
         <UserNavbar />
         <div style={{ padding: "10px" }}>
           <h2>Registered Events</h2>
+<<<<<<< HEAD
           <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
          { registeredEvents.length !== 0 && <Button variant="outline-dark" style={{ width: "20%", borderRadius:"25px", border:"none"}} onClick={() => setShowOngoingOnly(!showOngoingOnly)}>
             {showOngoingOnly ? 'Show All Events' : 'Show Ongoing Events Only'}
@@ -56,6 +66,16 @@ const RegisteredEvents = () => {
               <div key={event._id} className="col-md-4" style={{marginBottom:"1rem"}}>
                 <Card className="event-card">
                   <Card.Body className="event-card-body">
+=======
+         { registeredEvents.length !== 0 && <Button variant="info" onClick={() => setShowOngoingOnly(!showOngoingOnly)}>
+            {showOngoingOnly ? 'Show All Events' : 'Show Ongoing Events Only'}
+          </Button>}
+          <div className="row">
+            {filteredEvents.map(event => (
+              <div key={event._id} className="col-md-4">
+                <Card style={{ width: '100%', marginBottom: '1rem' }}>
+                  <Card.Body>
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Card.Title>{event.eventName}</Card.Title>
                       <Card.Text className="text-muted" style={{ fontSize: 'small' }}>Registered at: {new Date(event.createdAt).toLocaleString('en-GB')}</Card.Text>
@@ -74,7 +94,11 @@ const RegisteredEvents = () => {
                 </Card>
               </div>
             ))}
+<<<<<<< HEAD
           </div></>)}
+=======
+          </div>
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
         </div>
         {registeredEvents.length === 0 && <Alert severity="info" style={{ borderRadius: "50px", margin: "0% 10% 0% 10%" }}>
           <AlertTitle>Oops</AlertTitle>

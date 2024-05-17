@@ -48,7 +48,10 @@ const CreateEventForm = () => {
       // Send a POST request to the backend to create the event
       const response = await axios.post('http://localhost:5000/createEvent', formData);
       // Reset the form after successful submission
+<<<<<<< HEAD
       if(response)
+=======
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
       toast.success("Event Created Successfully !");
       setTimeout(() => {
         setFormData({
@@ -110,7 +113,11 @@ const CreateEventForm = () => {
     const { date, endDate, time, endTime } = formData;
     const startDateTime = new Date(`${date}T${time}`);
     const endDateTime = new Date(`${endDate}T${endTime}`);
+<<<<<<< HEAD
     return startDateTime <= endDateTime;
+=======
+    return startDateTime < endDateTime;
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
   };
 
   // Call determineEventStatus when date changes

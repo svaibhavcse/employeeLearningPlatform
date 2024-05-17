@@ -14,7 +14,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+<<<<<<< HEAD
 import './styles/eventList.css'
+=======
+
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
 const UserEventList = () => {
   const location = useLocation()
  const { logged } = useSupplier();
@@ -144,6 +148,7 @@ const handleUnregister = async (eventId) => {
        </Box>
       ) : (
           <div className="event-list">
+<<<<<<< HEAD
             <div className="row" >
               {filteredEvents.map((event, index) => (
                 <div key={index} className="col-md-3" style={{marginBottom:'1rem'}}>
@@ -171,6 +176,32 @@ const handleUnregister = async (eventId) => {
                       <Button variant="secondary" disabled style={{ borderRadius: '25px', width: '45%' }}>No Seating</Button>
                     )}
                     </Card.Footer>
+=======
+            <div className="row">
+              {filteredEvents.map((event, index) => (
+                <div key={index} className="col-md-3">
+                 <Card style={{ width: '100%', marginBottom: '1rem' }}>
+                    <Card.Body>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Card.Title>{event.eventName}</Card.Title>
+                    {/* {event.status === 'ongoing'&& <Card.Text><Tooltip title="Live Event"> <Levels style={{color:"red"}}/> </Tooltip> </Card.Text>}  */}
+                  </div>
+                      <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} - {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
+                      <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
+                      <Card.Text>Trainer: {event.trainer}</Card.Text>
+                      <Card.Text>Time: {event.time} - {event.endTime}</Card.Text>
+                      <Card.Text>Location: {event.location}</Card.Text>
+                      <Button variant="primary" style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }} onClick={() => handleViewDetails(event)}>View Details</Button>
+                    
+                      {event.isRegistered ? (
+                        <Button variant="danger" style={{ borderRadius: '25px', width: '45%' }} onClick={() => handleUnregister(event._id)}disabled={event.status === 'completed'}>Unregister</Button>
+                      ) : ( event.capacity !== 0 ?
+                        <Button variant="success" style={{ borderRadius: '25px', width: '45%' }} onClick={() => handleRegister(event._id)} disabled={event.status === 'completed'} >Register</Button>
+                        :
+                        <Button variant="secondary" disabled style={{ borderRadius: '25px', width: '45%' }}>No Seating</Button>
+                      )}
+                    </Card.Body>
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
                  </Card>
                 </div>
               ))}
@@ -183,4 +214,8 @@ const handleUnregister = async (eventId) => {
  );
 };
 
+<<<<<<< HEAD
 export default UserEventList;
+=======
+export default UserEventList;
+>>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
