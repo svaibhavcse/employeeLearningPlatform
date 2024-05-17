@@ -7,11 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSupplier } from './bucket';
 import Alert from 'react-bootstrap/Alert';
-<<<<<<< HEAD
 import backgroundImage from './assets/loginBack.png'
-=======
-
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
 const Login = () => {
   const supplier = useSupplier();
   const  email = supplier.email
@@ -21,14 +17,10 @@ const Login = () => {
       e.preventDefault()
       try {      
         const response = await axios.post('http://localhost:5000/login',{email});
-<<<<<<< HEAD
         if(response.data ==='No User'){
           toast.error("Invalid User !")
         }
         else{
-=======
-        if(response.data){
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
         if(response.data.login.password === password){
           toast.success("Login Success");
           supplier.setUserId(response.data.login._id)
@@ -47,16 +39,9 @@ const Login = () => {
           toast.error("Password does'nt match !")
         }
       }
-<<<<<<< HEAD
      
       } catch (error) {
         toast.error("Invalid User !")
-=======
-      else{
-        toast.error("Invalid User !")
-      }
-      } catch (error) {
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
         console.log(error);
       }
     };
@@ -64,7 +49,6 @@ const forgetPassword = async () => {
   try {
     if(!email) {toast.error('Please enter a valid email id')}
     const response = await axios.post('http://localhost:5000/forgotpassword',{ email : email })
-<<<<<<< HEAD
     if(response)
     toast.success("OTP sent to your email")
     setTimeout(()=>{navigate(`/resetpassword/${email}`)},2500)
@@ -73,18 +57,11 @@ const forgetPassword = async () => {
     if(error.response.status === 404){
     toast.error('User not Found !')}
     console.error('Error sending OTP for password reset:', error);
-=======
-    toast.success("OTP sent to your email")
-    navigate(`/resetpassword/${email}`);
-  } catch (error) {
-    console.error('Error sending OTP for password reset:', error.message);
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
    
   }
 }
 
     return (
-<<<<<<< HEAD
       <div className='loginContainer' 
        style={{
         backgroundImage: `url(${backgroundImage})`,
@@ -95,9 +72,6 @@ const forgetPassword = async () => {
         height: '100vh'
       }}
       >
-=======
-      <div className='loginContainer'>
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
         <ToastContainer position="top-right" autoClose={1500} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable theme="colored"/>
        <Alert variant="dark" style={{borderRadius:"50px", margin:"1% 10% 10% 10%",textAlign:"center",backgroundColor:"#495057",color:"white",borderColor:"#6c757d",borderWidth:"5px"}}>Employee Learning Platform</Alert>
        <div className='formContainer'>

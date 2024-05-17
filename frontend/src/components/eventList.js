@@ -11,11 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-<<<<<<< HEAD
 import './styles/eventList.css';
-=======
-
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
 const EventList = () => {
   const location = useLocation()
   const [events, setEvents] = useState([]);
@@ -125,7 +121,6 @@ const EventList = () => {
          <LinearProgress />
        </Box>
       ) : (
-<<<<<<< HEAD
       <div className="event-list" >
         <div className="row">
           {filteredEvents.map((event, index) => (
@@ -138,20 +133,6 @@ const EventList = () => {
                   </div>
                   <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
                   <Card.Text className="event-card-content" style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
-=======
-      <div className="event-list">
-        <div className="row">
-          {filteredEvents.map((event, index) => (
-            <div key={index} className="col-md-3">
-              <Card style={{ width: '100%', marginBottom: '1rem' }}>
-                <Card.Body>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Card.Title>{event.eventName}</Card.Title>
-                    {/* {event.status === 'ongoing'&& <Card.Text><Tooltip title="Live Event"> <Levels style={{color:"red"}}/> </Tooltip> </Card.Text>}  */}
-                  </div>
-                  <Card.Subtitle className="mb-2 text-muted">Date: {new Date(event.date).toLocaleDateString('en-GB')} -  {new Date(event.endDate).toLocaleDateString('en-GB')}</Card.Subtitle>
-                  <Card.Text style={{ whiteSpace: 'pre-line' }}>Description: {event.eventDescription}</Card.Text>
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
                   <Card.Text>Trainer: {event.trainer}</Card.Text>
                   <Card.Text>Starts At: {event.time}</Card.Text>
                   <Card.Text>Ends At: {event.endTime}</Card.Text>
@@ -161,12 +142,9 @@ const EventList = () => {
                   <Card.Text>Prerequisite: {event.prerequisite}</Card.Text>
                   <Card.Text>Available Seats: {event.capacity}</Card.Text>
                   <Card.Text>Status: {event.status}</Card.Text>
-<<<<<<< HEAD
                   
                 </Card.Body>
                 <Card.Footer>
-=======
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
                   {/* Edit Button */}
                   <Button variant="outline-primary"
                             style={{ borderRadius: '25px', width: '45%', marginRight: '10px' }}
@@ -177,11 +155,7 @@ const EventList = () => {
                             </Button>
                   {/* Delete Button */}
                   <Button variant="outline-danger" style={{ borderRadius: '25px', width: '45%' }} onClick={() => handleDelete(event._id)}disabled={event.status === 'completed'}>Delete</Button>
-<<<<<<< HEAD
                 </Card.Footer>
-=======
-                </Card.Body>
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
               </Card>
             </div>
           ))}

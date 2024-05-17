@@ -11,27 +11,13 @@ function ResetPassword() {
     const [newPassword, setNewPassword] = useState('');
     const navigate = useNavigate();
     const handleResetPassword = async () => {
-<<<<<<< HEAD
         try {
             const response = await axios.post('http://localhost:5000/resetPassword', {otp,email, newPassword })
-=======
-        console.log(email)
-        try {
-            const response = await axios.post('http://localhost:5000/resetPassword', {otp,email, newPassword }) // Include userID in the request body
-            if (!response.ok) {
-                throw new Error('Failed to reset password');
-            }
-          
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
          toast.success("Password Updated")
             // Redirect to home route after a brief delay
             setTimeout(() => {
                 navigate('/');
-<<<<<<< HEAD
             }, 2500); 
-=======
-            }, 2000); // 2000 milliseconds delay
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
         } catch (error) {
             console.error('Error resetting password:', error.message);
            

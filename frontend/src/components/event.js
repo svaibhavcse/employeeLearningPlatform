@@ -4,11 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import CreateEventForm from './createEventForm';
 import './styles/event.css'
-<<<<<<< HEAD
 import { ToastContainer } from 'react-toastify';
-=======
-import { ToastContainer, toast } from 'react-toastify';
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
 import { useSupplier } from './bucket';
 import EventList from './eventList';
 import { IoIosCreate } from "react-icons/io";

@@ -19,13 +19,8 @@ const sendEmail = async (to, subject, text) => {
       text:text
     };
 
-<<<<<<< HEAD
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent:', info.response);
-=======
-    // const info = await transporter.sendMail(mailOptions);
-    // console.log('Email sent:', info.response);
->>>>>>> 650dfcbb454291938dab7a45842ee1c5cc041735
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
